@@ -2,6 +2,7 @@
 #define _2DE_VECTOR3_H_
 
 #include <cassert>
+#include <cmath>
 
 //#include "2de_Math.h"
 
@@ -133,14 +134,20 @@ public:
 	}
 };
 
-//template<>
-//__INLINE Vector3 Clamp(const Vector3 &x, const Vector3 &min, const Vector3 &max)
-//{
-//	Vector3 result;
-//	result.x = Clamp(x.x, min.x, max.x);
-//	result.y = Clamp(x.y, min.y, max.y);
-//	result.z = Clamp(x.z, min.z, max.z);
-//	return result;
-//}
+template<typename T>
+__INLINE T clamp(const T &x , const T &min, const T &max)
+{
+	return std::min(std::max(x, min), max);
+}
+
+template<>
+__INLINE Vector3 clamp(const Vector3 &x, const Vector3 &min, const Vector3 &max)
+{
+	Vector3 result;
+	result.x = clamp(x.x, min.x, max.x);
+	result.y = clamp(x.y, min.y, max.y);
+	result.z = clamp(x.z, min.z, max.z);
+	return result;
+}
 
 #endif	//	_2DE_VECTOR3_H_

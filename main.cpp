@@ -124,14 +124,32 @@ struct Printer : public IAccelDataReceiver
 	IAccelDataReceiver* adr;
 };
 
+struct DegConverter : public IAccelDataReceiver
+{
+	IAccelDataReceiver* adr;
 
+	DegConverter(IAccelDataReceiver* adr) : adr(adr) {}
+
+	virtual void receive(Vector3& a)
+	{
+		a.x = a.x * (90. / (-10.));
+		a.y = a.y * (90. / (-10.));
+		a.z = a.z * (90. / (-10.));
+
+		a = clamp(a, Vector3(-90., -90., -90.), Vector3(90., 90., 90.));
+
+		if (adr) adr->receive(a);
+	}
+
+};
 
 int main() try
 {
 	GOOGLE_PROTOBUF_VERIFY_VERSION;
 
 	VirtualJoy joy(NULL);
-	Printer rec(&joy);
+	DegConverter deg(&joy);
+	Printer rec(&deg);
 	LowPassFilter fil(&rec);
 	udp_server serv(fil, iosrv);
 

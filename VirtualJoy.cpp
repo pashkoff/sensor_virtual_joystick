@@ -1,5 +1,7 @@
-
+#define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 #include <windows.h>
+#undef min 
+#undef max
 
 #include <winioctl.h>
 
@@ -68,9 +70,8 @@ struct VirtualJoy::Impl : public IAccelDataReceiver
 		std::fill_n(state.Analog, NUM_ANALOG, (PPJOY_AXIS_MIN+PPJOY_AXIS_MAX)/2);
 		std::fill_n(state.Digital, NUM_DIGITAL, 0);
 
-		double xdeg = a.x * (90. / (-10.));
-		double ydeg = a.y * (90. / (-10.));
-
+		double xdeg = a.x;
+		double ydeg = a.y;
 		std::cout << b::str(b::format("xdeg = %1% ydeg = %2%") % xdeg % ydeg) << std::endl;
 
 		const double degmin = -90.;
