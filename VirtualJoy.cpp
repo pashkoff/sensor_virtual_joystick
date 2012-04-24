@@ -5,8 +5,6 @@
 
 #include "VirtualJoy.hpp"
 
-#include "proto/cpp_src/sensor.pb.h"
-
 #include "ppjoy/ppjioctl.h"
 #include "ppjoy/ppjioctl_devname.h"
 
@@ -65,13 +63,13 @@ struct VirtualJoy::Impl : public IAccelDataReceiver
 	}
 
 
-	virtual void receive(sensor::Accel& a)
+	virtual void receive(Vector3& a)
 	{
 		std::fill_n(state.Analog, NUM_ANALOG, (PPJOY_AXIS_MIN+PPJOY_AXIS_MAX)/2);
 		std::fill_n(state.Digital, NUM_DIGITAL, 0);
 
-		double xdeg = a.x() * (90. / (-10.));
-		double ydeg = a.y() * (90. / (-10.));
+		double xdeg = a.x * (90. / (-10.));
+		double ydeg = a.y * (90. / (-10.));
 
 		std::cout << b::str(b::format("xdeg = %1% ydeg = %2%") % xdeg % ydeg) << std::endl;
 
@@ -122,7 +120,7 @@ VirtualJoy::~VirtualJoy(void)
 }
 
 
-void VirtualJoy::receive(sensor::Accel& a)
+void VirtualJoy::receive(Vector3& a)
 {
 	pimpl->receive(a);
 	if (adr) adr->receive(a);

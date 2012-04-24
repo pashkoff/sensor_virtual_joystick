@@ -1,16 +1,12 @@
 #pragma once
 
-
-namespace sensor
-{
-	class Accel;
-}
+#include "2de_Vector3.h"
 
 class IAccelDataReceiver
 {
 public:
 
-	virtual void receive(sensor::Accel& a) = 0;
+	virtual void receive(Vector3& a) = 0;
 
 protected: 
 

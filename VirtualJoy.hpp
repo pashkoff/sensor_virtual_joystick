@@ -9,7 +9,7 @@ struct VirtualJoy : public IAccelDataReceiver
 
 	virtual ~VirtualJoy();
 
-	virtual void receive(sensor::Accel& a);
+	virtual void receive(Vector3& a);
 
 	IAccelDataReceiver* adr;
 

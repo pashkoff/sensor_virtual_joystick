@@ -2,7 +2,7 @@
 #include <iostream>
 #include <conio.h>
 
-#include <sensor.pb.h>
+#include "proto/cpp_src/sensor.pb.h"
 
 
 #include <boost/asio.hpp>
@@ -57,7 +57,8 @@ private:
 			}
 			else
 			{
-				arecv.receive(ac);
+				Vector3 a(ac.x(), ac.y(), ac.z());
+				arecv.receive(a);
 			}
 		}
 		else
@@ -88,16 +89,12 @@ struct LowPassFilter : public IAccelDataReceiver
 		k(0.2)
 	{}
 
-	virtual void receive(sensor::Accel& a)
+	virtual void receive(Vector3& a)
 	{
-		Vector3 va(a.x(), a.y(), a.z());
-
 		//std::cout << "k = " << k << "\n";
 
-		prev = prev + k * ( va - prev);
-		a.set_x(prev.x);
-		a.set_y(prev.y);
-		a.set_z(prev.z);
+		prev = prev + k * ( a - prev);
+		a = prev;
 
 		if (adr) adr->receive(a);
 	}
@@ -114,11 +111,11 @@ struct Printer : public IAccelDataReceiver
 		adr(adr)
 	{}
 
-	virtual void receive(sensor::Accel& a)
+	virtual void receive(Vector3& a)
 	{
-		std::cout	<< " x = " << a.x()
-					<< " y = " << a.y()
-					<< " z = " << a.z()
+		std::cout	<< " x = " << a.x
+					<< " y = " << a.y
+					<< " z = " << a.z
 					<< std::endl;
 
 		if (adr) adr->receive(a);
