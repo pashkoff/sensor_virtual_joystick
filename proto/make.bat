@@ -1,0 +1,1 @@
+d:\bin\protoc\protoc -I=. --cpp_out=cpp_src --python_out=py_src ./sensor.proto

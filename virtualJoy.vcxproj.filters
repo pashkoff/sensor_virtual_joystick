@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="VirtualJoy.cpp" />
+    <ClCompile Include="proto\cpp_src\sensor.pb.cc">
+      <Filter>proto</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="2de_Vector3.h" />
+    <ClInclude Include="ppjoy\PPJIoctl.h">
+      <Filter>ppjoy</Filter>
+    </ClInclude>
+    <ClInclude Include="ppjoy\ppjioctl_devname.h">
+      <Filter>ppjoy</Filter>
+    </ClInclude>
+    <ClInclude Include="IAccelDataReceiver.hpp" />
+    <ClInclude Include="VirtualJoy.hpp" />
+    <ClInclude Include="proto\cpp_src\sensor.pb.h">
+      <Filter>proto</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="proto">
+      <UniqueIdentifier>{1d6bb05a-fddc-4c4b-8ab3-a2761b936b55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ppjoy">
+      <UniqueIdentifier>{fefa7aa9-ec6e-4277-bda3-d261f8f8f2bf}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
