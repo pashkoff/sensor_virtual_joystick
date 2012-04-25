@@ -143,12 +143,36 @@ struct DegConverter : public IAccelDataReceiver
 
 };
 
+struct StepLeveler : public IAccelDataReceiver
+{
+	IAccelDataReceiver* adr;
+
+	StepLeveler(IAccelDataReceiver* adr) : adr(adr) {}
+
+	Vector3 prev;
+
+	virtual void receive(Vector3& a)
+	{
+		const double level = 7.;
+		auto f = [=](double a, double b) { return abs(a-b) > level ? a : b; };
+
+		a.x = f(a.x, prev.x);
+		a.y = f(a.y, prev.y);
+		a.z = f(a.z, prev.z);
+
+		prev = a;
+
+		if (adr) adr->receive(a);
+	}
+};
+
 int main() try
 {
 	GOOGLE_PROTOBUF_VERIFY_VERSION;
 
 	VirtualJoy joy(NULL);
-	DegConverter deg(&joy);
+	StepLeveler step(&joy);
+	DegConverter deg(&step);
 	Printer rec(&deg);
 	LowPassFilter fil(&rec);
 	udp_server serv(fil, iosrv);
